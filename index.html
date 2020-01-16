@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div class="login-box" style="display: none;">
+        <div class="lb-header">
+            <a href="javascript:;" class="active" id="login-box-link" onclick="showLogin(this)">Login</a>
+            <a href="javascript:;" id="signup-box-link" onclick="showSignUp(this)">Sign Up</a>
+        </div>
+        
+        <div class="email-login">
+            <div class="u-form-group">
+                <input type="email" placeholder="Email" id="logInEmail"/>
+            </div>
+            <div class="u-form-group">
+                <input type="password" placeholder="Password" id="logInPass"/>
+            </div>
+            <div class="u-form-group">
+                <button onclick="logIn()">Log in</button>
+            </div>
+            <div class="u-form-group">
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+        </div>
+        <div class="email-signup" style="display: none;">
+            <div class="u-form-group">
+                <input type="email" placeholder="Email" id="regEmail" />
+            </div>
+            <div class="u-form-group">
+                <input type="password" placeholder="Password" id="regPass"/>
+            </div>
+            <div class="u-form-group">
+                <input type="password" placeholder="Confirm Password" id="regConfirm"/>
+            </div>
+            <div class="u-form-group">
+                <button onclick="signUp()">Sign Up</button>
+            </div>
+        </div>
+        <div class="social-login">
+            <a href="#">
+                <i class="fa fa-facebook fa-lg"></i>
+                Login in with facebook
+            </a>
+            <a onclick="googleLogin()">
+                <i class="fa fa-google-plus fa-lg"></i>
+                log in with Google
+            </a>
+        </div>
+
+    </div>
+
+    <div class="welcomeNote" style="display: none;">
+        
+        <div class="center">
+            <div class="welcomeNoneInr">
+                <h4 id="welcomNote">Welcome <span>Arindam</span></h4>
+                <a href="javascript: logOut();" class="logOutBtn">Log Out</a>
+            </div>
+            <div class="contacts" style="display: none;">
+              <i class="fas fa-bars fa-2x"></i>
+              <h2>
+                Contacts
+              </h2>
+            <div class="contactInr">
+                <div class="contact">
+                    <div class="pic rogers"></div>
+                    <div class="badge">
+                    14
+                    </div>
+                    <div class="name">
+                    Steve Rogers
+                    </div>
+                    <div class="message">
+                    That is America's ass 🇺🇸🍑
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="pic stark"></div>
+                    <div class="name">
+                    Tony Stark
+                    </div>
+                    <div class="message">
+                    Uh, he's from space, he came here to steal a necklace from a wizard.
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="pic banner"></div>
+                    <div class="badge">
+                    1
+                    </div>
+                    <div class="name">
+                    Bruce Banner
+                    </div>
+                    <div class="message">
+                    There's an Ant-Man *and* a Spider-Man?
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="pic thor"></div>
+                    <div class="name">
+                    Thor Odinson
+                    </div>
+                    <div class="badge">
+                    3
+                    </div>
+                    <div class="message">
+                    I like this one
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="pic danvers"></div>
+                    <div class="badge">
+                    2
+                    </div>
+                    <div class="name">
+                    Carol Danvers
+                    </div>
+                    <div class="message">
+                    Hey Peter Parker, you got something for me?
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="chat" style="width: 100%;">
+              <div class="contact bar">
+                <div class="pic stark"></div>
+                <div class="name" id="senderName" data-email="aaa@ddd.com">
+                  Tony Stark
+                </div>
+                <div class="seen">
+                  Today at 12:56
+                </div>
+              </div>
+              <div class="messages" id="chat">
+                <div class="time">
+                  Today at 11:41
+                </div>
+                <!-- <div class="message stark">
+                  <div class="typing typing-1"></div>
+                  <div class="typing typing-2"></div>
+                  <div class="typing typing-3"></div>
+                </div> -->
+              </div>
+              <div class="input">
+                <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i><input placeholder="Type your message here!" type="text" onkeypress="chatKeyUp(event, this);" /><i class="fas fa-microphone"></i>
+              </div>
+            </div>
+          </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    
+  
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCzjKe7J0REFL-eku83LPmyrevYpUfDA7Y",
+            authDomain: "fighter-db-89873.firebaseapp.com",
+            databaseURL: "https://fighter-db-89873.firebaseio.com",
+            projectId: "fighter-db-89873",
+            storageBucket: "fighter-db-89873.appspot.com",
+            messagingSenderId: "806782425742",
+            appId: "1:806782425742:web:e034d66f8900e46d3307df",
+            measurementId: "G-YM9LFCMR5J"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
