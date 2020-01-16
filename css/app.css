@@ -226,7 +226,8 @@ body, html {
   box-shadow: 0 0 8rem 0 rgba(0, 0, 0, 0.1), 2rem 2rem 4rem -3rem rgba(0, 0, 0, 0.5);
   transition: -webkit-transform 500ms;
   transition: transform 500ms;
-  transition: transform 500ms, -webkit-transform 500ms;  
+  transition: transform 500ms, -webkit-transform 500ms; 
+  border-right: 1px solid #dfdfdf; 
 }
 .contacts h2 {
   margin: 0.5rem 0 1.5rem 5rem;
@@ -255,7 +256,7 @@ body, html {
   z-index: 2;
   box-sizing: border-box;
   background: white;
-  box-shadow: 0 0 8rem 0 rgba(0, 0, 0, 0.1), 0rem 2rem 4rem -3rem rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 0 8rem 0 rgba(0, 0, 0, 0.1), 0rem 2rem 4rem -3rem rgba(0, 0, 0, 0.5); */
 }
 .chat .contact.bar {
   flex-basis: 3.5rem;
@@ -298,7 +299,7 @@ body, html {
 .chat .messages .message.parker {
   margin: 1rem 1rem 1rem auto;
   border-radius: 1.125rem 1.125rem 0 1.125rem;
-  background: #333;
+  background: #1f88e5;
   color: white;
 }
 .chat .messages .message .typing {
@@ -344,14 +345,19 @@ body, html {
   border: none;
   background-image: none;
   background-color: white;
-  padding: 0.5rem 1rem;
+  padding: 15px 15px;
   margin-right: 1rem;
-  border-radius: 1.125rem;
+  border-radius: 30px;
   flex-grow: 2;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
   font-family: Red hat Display, sans-serif;
   font-weight: 400;
   letter-spacing: 0.025em;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.05), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.05);
+  border: 1px solid #eeeeee;
+}
+.chat .input input:focus {
+  outline: none;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
 }
 .chat .input input:placeholder {
   color: #999;
@@ -409,4 +415,47 @@ body, html {
 .contactInr {
   max-height: 426px;
   overflow-y: auto;
+}
+
+
+.profileEdit{
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+.arFormGroup{
+  width: 100%;  
+  margin-bottom: 10px;
+}
+.arFormGroup label{
+  width: 100%;
+  margin-bottom: 5px;
+  display: block;
+  font-size: 14px;
+}
+.arInput1:not([type="file"]){
+  width: 100%;
+  height: 38px;
+  line-height: 38px;
+  border: 1px solid #eee;
+  padding: 0 10px;
+}
+.saveDAtaBtn {
+  padding: 0 26px;
+  height: 40px;
+  line-height: 40px;
+  border: none;
+  background: #1f88e5;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.m-t-20{
+  padding: 20px 0 0 !important;
+}
+.text-center{
+  text-align: center;
 }

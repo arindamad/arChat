@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div class="profileEdit" id="profileEdit" style="display: none;">
+        <div class="arFormGroup">
+            <label for="">Name</label>
+            <input type="text" value="" class="arInput1" id="popName">
+        </div>
+        <div class="arFormGroup">
+            <label for="">Email</label>
+            <input type="text" value="" class="arInput1" readonly id="popemailId">
+        </div>
+        <div class="arFormGroup">
+            <label for="">Upload Profile Image</label>
+            <div class="profileImgCont">
+                
+                <input type="file" value="Arindam Sarkar" class="arInput1" id="for">
+                <label for="" ></label>
+            </div>            
+        </div>
+        <div class="arFormGroup m-t-20 text-center">
+            <button type="submit" onclick="saveProfileData();" class="saveDAtaBtn">Save</button>
+        </div>
+    </div>
+    <div class="profileEdit" id="profileElse" style="display: none;">
+        <p>Please<a href="index.html">Login </a></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    
+  
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCzjKe7J0REFL-eku83LPmyrevYpUfDA7Y",
+            authDomain: "fighter-db-89873.firebaseapp.com",
+            databaseURL: "https://fighter-db-89873.firebaseio.com",
+            projectId: "fighter-db-89873",
+            storageBucket: "fighter-db-89873.appspot.com",
+            messagingSenderId: "806782425742",
+            appId: "1:806782425742:web:e034d66f8900e46d3307df",
+            measurementId: "G-YM9LFCMR5J"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="js/profile.js"></script>
+</body>
+
+</html>

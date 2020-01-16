@@ -137,6 +137,7 @@ commentsRef.on('child_added', function(data) {
 
     
     // addCommentElement(postElement, data.key, data.val().text, data.val().author);
+    scrollToar();
 });
 commentsRef.on('child_changed', function(data) {
     alert("change");
@@ -171,11 +172,12 @@ var chatKeyUp = (e, tables)=>{
     var x = e.which || e.keyCode;
     var val = tables.value;
     if(x==13){
-        sendMessage(val);
+        sendMessage(val, tables);
     }
 }
-var sendMessage = (val)=>{
-    console.log(userUniqueId);
+var sendMessage = (val, tables)=>{
+    console.log(tables);
+    tables.value = "";
     // Get a reference to the database service
     var senderEmailTo = document.getElementById("senderName").getAttribute('data-email');
     var myUserId = firebase.auth().currentUser.email;
@@ -189,5 +191,11 @@ var sendMessage = (val)=>{
 }
 
 function scrollToar(){
-    window.scrollTo(0,document.querySelector(".scrollingContainer").scrollHeight);
+    function autoScroll(thisCLs=''){
+        // Add smooth scrolling to all links
+        $('html, body').animate({
+          scrollTop: thisCLs.offset().top
+        }, 800, function(){
+        });
+      }
 }
