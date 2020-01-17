@@ -31,6 +31,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 saveProfileData = ()=>{
     //https://firebase.google.com/docs/auth/admin/manage-users#update_a_user
+    
     alert("ss")
     firebase.auth().currentUser.displayName = document.getElementById('popName').value;
 

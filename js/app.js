@@ -103,19 +103,18 @@ var googleLogin = ()=>{
 
 //fucntion for 
 var getDataFormDatabse= ()=>{    
-    var arr = [];
     var leadsRef = firebase.database().ref('messages');
     leadsRef.on('value', function(snapshot) {
+        var arr = [];
         var lenth = snapshot.length;
         snapshot.forEach(function(childSnapshot) {
             var childData = childSnapshot.val();
-            // console.log(childData);
             arr.push(childData);
         });  
-        // console.log(arr);
-        // return arr;
+        console.log(arr);
     });
 }
+
 var commentsRef = firebase.database().ref('usersMsg/');
 commentsRef.on('child_added', function(data) {
     // alert("aa");
@@ -128,6 +127,7 @@ commentsRef.on('child_added', function(data) {
         var x = `<div class="message parker">${xx}</div>`;
     }else if(data.val().to == myUserEmail && data.val().from == to){
         var x = `<div class="message stark">${xx}</div>`;
+        document.getElementById("lastMsg").innerHTML = xx;
     }else{
         var x = "";
     }
@@ -160,12 +160,13 @@ makeChat = ()=>{
 makeChat();
 
 
+
 /*
 ===============================
-only for chat making 
+1. only for chat making 
 ===============================
 */
-var chatingPerson = window.prompt("Please Enter a Email Address");
+var chatingPerson = window.location.hash.split("#")[1];
 document.getElementById("senderName").setAttribute("data-email", chatingPerson);
 
 var chatKeyUp = (e, tables)=>{
@@ -198,4 +199,33 @@ function scrollToar(){
         }, 800, function(){
         });
       }
+}
+
+/*
+===============================
+2. only for Clicking on Contacts
+===============================
+*/
+changeChatPerson = (elem) => {
+   var senderEmail = elem.getAttribute("contact-email");
+   window.location.hash = senderEmail;
+//    console(firebase.auth());
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
+   console.log(admin.auth().getUserByEmail(senderEmail));
+   
+
+
+
+
+//    database.child("usuario").addValueEventListener(new ValueEventListener() {
+//     public void onDataChange(DataSnapshot dataSnapshot) {
+//          for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+//              for (DataSnapshot messageSnapshot: snapshot.child("mensagem").getChildren()) {
+//                  listView.add(messageSnapshot.child("textoMensagem").getValue().toString());
+//              }
+//          }
+//     }
+
 }
