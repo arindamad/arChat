@@ -28,6 +28,7 @@ firebase.auth().onAuthStateChanged(function(user) {
       document.getElementsByClassName('login-box')[0].style.display="none";
       if(user !=null){
           userUniqueId = user.uid;
+          window.localStorage.setItem("userEmail", user.email);
           document.getElementById('welcomNote').innerHTML= "Welcome "+user.email;
       }
     } else {
@@ -86,7 +87,7 @@ var googleLogin = ()=>{
     firebase.auth().signInWithPopup(provider).then(function(result) {
         var token = result.credential.accessToken;
         var user = result.user;
-        console.log(user);
+        // console.log(user);
     }).catch(function(error) {
     var errorCode = error.code;
     var errorMessage = error.message;
@@ -111,14 +112,13 @@ var getDataFormDatabse= ()=>{
             var childData = childSnapshot.val();
             arr.push(childData);
         });  
-        console.log(arr);
+        // console.log(arr);
     });
 }
 
 var commentsRef = firebase.database().ref('usersMsg/');
 commentsRef.on('child_added', function(data) {
     // alert("aa");
-
     var myUserId = firebase.auth().currentUser.uid;
     var myUserEmail = firebase.auth().currentUser.email;
     var to = document.getElementById("senderName").getAttribute('data-email');
@@ -127,17 +127,12 @@ commentsRef.on('child_added', function(data) {
         var x = `<div class="message parker">${xx}</div>`;
     }else if(data.val().to == myUserEmail && data.val().from == to){
         var x = `<div class="message stark">${xx}</div>`;
-        document.getElementById("lastMsg").innerHTML = xx;
+        // document.getElementById("lastMsg").innerHTML = xx;
     }else{
         var x = "";
     }
     document.getElementById("chat").innerHTML+=x;
-
-    // console.log(myUserEmail, data.val());
-
-    
-    // addCommentElement(postElement, data.key, data.val().text, data.val().author);
-    scrollToar();
+    autoScroll();
 });
 commentsRef.on('child_changed', function(data) {
     alert("change");
@@ -152,12 +147,6 @@ commentsRef.on('child_removed', function(data) {
 
 
 
-makeChat = ()=>{
-    var dataArr = getDataFormDatabse(); 
-    console.log(dataArr);
-    // document.getElementById("chat").innerHTML = 
-}
-makeChat();
 
 
 
@@ -177,7 +166,6 @@ var chatKeyUp = (e, tables)=>{
     }
 }
 var sendMessage = (val, tables)=>{
-    console.log(tables);
     tables.value = "";
     // Get a reference to the database service
     var senderEmailTo = document.getElementById("senderName").getAttribute('data-email');
@@ -191,16 +179,18 @@ var sendMessage = (val, tables)=>{
       }writeUserData(senderEmailTo,  myUserId, val);
 }
 
-function scrollToar(){
-    function autoScroll(thisCLs=''){
-        // Add smooth scrolling to all links
-        $('html, body').animate({
-          scrollTop: thisCLs.offset().top
-        }, 800, function(){
-        });
-      }
+
+function autoScroll(){
+    // Add smooth scrolling to all links
+    $('#chat').animate({
+        scrollTop:  $('#chat').outerHeight()
+    }, 800, function(){
+
+    });
 }
 
+
+// 
 /*
 ===============================
 2. only for Clicking on Contacts
@@ -209,23 +199,80 @@ function scrollToar(){
 changeChatPerson = (elem) => {
    var senderEmail = elem.getAttribute("contact-email");
    window.location.hash = senderEmail;
-//    console(firebase.auth());
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-admin.initializeApp();
-   console.log(admin.auth().getUserByEmail(senderEmail));
-   
+}
+
+makeContact =()=>{
+    $("#addContact").on("click", function(){
+        var emailName = $("#addContactId").val();
+        var myUserId = firebase.auth().currentUser.email;
+        // window.localStorage.push("myUserEmail", myUserId)
+
+        var newPostKey = firebase.database().ref('msg-timeline/').child('msges').push().key;   
+        firebase.database().ref('msg-timeline/').child('msges').push().set({
+            created: true,
+            person2: emailName,
+            person1: myUserId,
+        });
+        var clearEmailName = emailName.replace(/[.]/g, "-*dot*-");
+        var clearMyUserId = myUserId.replace(/[.]/g, "-*dot*-");
+        // console.log(newPostKey);
 
 
+        
+       
+        firebase.database().ref('user-info/'+clearMyUserId+'/contact/'+clearEmailName+'/').set({
+            timelineid: newPostKey,
+            timestamp: new Date().getTime(),         
+          });
+        firebase.database().ref('user-info/'+clearEmailName+'/contact/'+clearMyUserId+'/').set({
+            timelineid: newPostKey,
+            timestamp: new Date().getTime(),         
+        });
 
-
-//    database.child("usuario").addValueEventListener(new ValueEventListener() {
-//     public void onDataChange(DataSnapshot dataSnapshot) {
-//          for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-//              for (DataSnapshot messageSnapshot: snapshot.child("mensagem").getChildren()) {
-//                  listView.add(messageSnapshot.child("textoMensagem").getValue().toString());
-//              }
-//          }
-//     }
+    });
 
 }
+makeContact ();
+
+
+let arc=()=>{
+    var selftEmail = window.localStorage.userEmail.replace(/[.]/g, "-*dot*-");
+    // console.log(selftEmail);
+    // console.log(selftEmail);
+    var commentsRef = firebase.database().ref('user-info/'+selftEmail+'/contact/');
+    // commentsRef.on("")
+
+    commentsRef.on('child_added', function(data) {
+        var htmlar ="";
+        var dataOrg = data.ref.key;
+        // alert(sdfsdf)
+        console.log(dataOrg.replace(/-\*dot\*-/g, "."));
+        
+        htmlar += `<div onclick="changeChatPerson(this);" class="contact contactList" contact-email="${dataOrg.replace(/-\*dot\*-/g, ".")}">
+                    <div class="pic stark"></div>
+                    <div class="name">
+                    ${dataOrg.replace(/-\*dot\*-/g, ".")}
+                    </div>
+                    <div class="message" id="lastMsg">
+                    Uh, he's from space, he came here to steal a necklace from a wizard.
+                    </div>
+                </div>`;
+        $(".contactInr").append(htmlar);
+    });
+    
+    
+}
+arc();
+
+
+
+
+
+
+
+
+
+$(".addPerson").on("click", function(){
+    $(this).toggleClass("active")
+    $(this).siblings(".addPersonForm").fadeToggle();
+});
