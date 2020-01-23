@@ -61,14 +61,12 @@ function readURL(input, imgChange) {
         var reader = new FileReader();
         reader.onload = function (e) {
             imgChange.attr('src', e.target.result).hide().fadeIn(0);
-
         }
         reader.readAsDataURL(input.files[0]);
         imgChange.closest('.dragAndDrop').find('.fileHide').addClass('active');
     }
 }
-$('#input-1').change(function () {
-    var imgChange = $('#imgUploadSect .imgContainer img');
+$('#profilePicture').change(function () {
+    var imgChange = $(this).siblings('img');
     readURL(this, imgChange);
-    $(this).siblings('.fileUploadLabel').html('<i class="fa fa-refresh"></i> Change');
 });

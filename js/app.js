@@ -28,8 +28,24 @@ firebase.auth().onAuthStateChanged(function(user) {
       document.getElementsByClassName('login-box')[0].style.display="none";
       if(user !=null){
           userUniqueId = user.uid;
+          var userImg = "";
+        //   firebase.database().ref('users/'+userUniqueId+'/profile-dtls/').on('value', function(snapshot){
+        //     var userImg = snapshot.val();
+        //     console.log(userImg.images);
+        //     if(typeof (userImg.images) !==undefined){
+        //         document.getElementById('currentUserProfileImg').setAttribute('src', userImg);
+        //     }
+        //   });
           window.localStorage.setItem("userEmail", user.email);
-          document.getElementById('welcomNote').innerHTML= "Welcome "+user.email;
+          if( user.displayName !== null){
+            document.getElementById('welcomNote').innerHTML=user.displayName;
+            alert( user.displayName);
+          }else{
+            document.getElementById('welcomNote').innerHTML=user.email;
+          }
+          
+          
+          
       }
     } else {
       // No user is signed in.
@@ -52,16 +68,49 @@ var logIn = ()=>{
     alert(errorMessage);
   });   
 }
+
+
 var signUp = ()=>{
     var email =  document.getElementById('regEmail').value;
     var pass  =  document.getElementById('regPass').value;
-    // console.log(email, pass);
-    firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function(error) {
+    var userName = document.getElementById('regiFullname').value;
+
+    var userImg = document.getElementById('ppRegitme').getAttribute("src");
+
+    firebase.auth().createUserWithEmailAndPassword(email, pass).then(function(user) {
+        // [END createwithemail]
+        // callSomeFunction(); Optional
+
+        var user = firebase.auth().currentUser;
+        user.updateProfile({
+            displayName: userName,
+            displayImg: userImg
+        }).then(function() {
+            // Update successful.
+        }, function(error) {
+            // An error happened.
+        });  
+        firebase.database().ref("users/"+user.uid+'/profile-dtls').set({
+            myUid : user.uid,
+            displayName: userName,
+            images: userImg,
+        });
+        
+    }, function(error) {
         // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    alert(errorMessage);
-    }); 
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+            alert('The password is too weak.');
+        } else {
+            console.error(error);
+        }
+        alert(errorMessage);        
+    });
+
+
+
  }
 
 
@@ -249,12 +298,14 @@ let arc=()=>{
         console.log(dataOrg.replace(/-\*dot\*-/g, "."));
         
         htmlar += `<div onclick="changeChatPerson(this);" class="contact contactList" contact-email="${dataOrg.replace(/-\*dot\*-/g, ".")}">
-                    <div class="pic stark"></div>
+                    <div class="pic">
+                        <img src="images/noimage.png">
+                    </div>
                     <div class="name">
                     ${dataOrg.replace(/-\*dot\*-/g, ".")}
                     </div>
                     <div class="message" id="lastMsg">
-                    Uh, he's from space, he came here to steal a necklace from a wizard.
+                        ...
                     </div>
                 </div>`;
         $(".contactInr").append(htmlar);
@@ -272,7 +323,26 @@ arc();
 
 
 
+
 $(".addPerson").on("click", function(){
     $(this).toggleClass("active")
     $(this).siblings(".addPersonForm").fadeToggle();
+});
+
+
+function readURL(input, imgChange) {
+    imgChange.attr('src', "images/noImg.jpg").hide().fadeIn(0);
+    imgChange.closest('.dragAndDrop').find('.fileHide').removeClass('active');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            imgChange.attr('src', e.target.result).hide().fadeIn(0);
+        }
+        reader.readAsDataURL(input.files[0]);
+        imgChange.closest('.dragAndDrop').find('.fileHide').addClass('active');
+    }
+}
+$('#profilePicture').change(function () {
+    var imgChange = $(this).siblings('img');
+    readURL(this, imgChange);
 });

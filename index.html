@@ -33,14 +33,23 @@
         </div>
         <div class="email-signup" style="display: none;">
             <div class="u-form-group">
+                <div class="uploadedPp">
+                    <img src="images/noimage.png" alt="" id="ppRegitme">
+                    <input type="file" placeholder="Password" id="profilePicture"/>
+                    <label for="profilePicture">Upload now</label>
+                </div>
+            </div>
+            <div class="u-form-group">
+                <input type="email" placeholder="Enter Full Name" id="regiFullname"/>
+            </div>
+            <div class="u-form-group">
                 <input type="email" placeholder="Email" id="regEmail" />
             </div>
             <div class="u-form-group">
                 <input type="password" placeholder="Password" id="regPass"/>
             </div>
-            <div class="u-form-group">
-                <input type="password" placeholder="Confirm Password" id="regConfirm"/>
-            </div>
+            
+            
             <div class="u-form-group">
                 <button onclick="signUp()">Sign Up</button>
             </div>
@@ -62,7 +71,11 @@
         
         <div class="center">
             <div class="welcomeNoneInr">
-                <h4 id="welcomNote">Welcome <span>Arindam</span></h4>
+                <div class="proflePicturear">
+                    <img src="images/noimage.png" alt="" id="currentUserProfileImg">
+                    <p id="welcomNote"></p>
+                </div>
+               
                 <a href="javascript: logOut();" class="logOutBtn">Log Out</a>
             </div>
             <div class="contacts" >
@@ -91,7 +104,9 @@
             </div>
             <div class="chat">
               <div class="contact bar">
-                <div class="pic stark"></div>
+                <div class="pic">
+                    <img src="images/noimage.png">
+                </div>
                 <div class="name" id="senderName" data-email="aaa@ddd.com">
                   Tony Stark
                 </div>

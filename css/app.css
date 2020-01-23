@@ -19,13 +19,19 @@ body{
     position:relative;
     margin: 40px auto;
     width: 500px;
-    height: 380px;
     background-color: #fff;
     padding: 10px;
     border-radius: 3px;
     -webkit-box-shadow: 8px 13px 11px -9px rgba(0, 0, 0, 0.4);
     -moz-box-box-shadow: 8px 13px 11px -9px rgba(0, 0, 0, 0.4);
     box-shadow: 8px 13px 11px -9px rgba(0, 0, 0, 0.4);
+  }
+  .login-box::after{
+    content: "";
+    clear: both;
+    display: table;
+
+
   }
   .lb-header{
     position:relative;
@@ -133,13 +139,14 @@ body{
     font-size: 0.75rem;
   }
 .welcomeNoneInr {
-  width: 100%;
-  background: #1f88e5;
-  padding: 20px;
-  text-align: center;
-  display: flex;
-  justify-content: space-between;
-  color: #fff;
+    width: 100%;
+    background: #1f88e5;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    align-items: center;
 }
 .welcomeNoneInr h4{
   font-size: 24px;
@@ -493,4 +500,40 @@ body, html {
 }
 .addPerson.active{
   transform: rotate(45deg);
+}
+
+.uploadedPp{
+  width: 50%;
+  margin: 0 auto;
+  padding: 0 12px;
+  position: relative;
+}
+.uploadedPp img{
+  width: 100%;
+}
+.uploadedPp [type="file"]{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+.proflePicturear{
+  display: flex;
+  align-items: center;
+}
+.proflePicturear img{
+  width: 50px;
+  display: block;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.contact .pic img{
+  width: 100%;
+  border-radius: 50%;
+  border: 2px solid #1f86e2;
 }
